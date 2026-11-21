@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+  <product id="1"><name>Wireless Headphones</name><category>Electronics</category><price>79.99</price><icon>🎧</icon><rating>4.5</rating><description>Over-ear Bluetooth headphones with active noise cancellation and 30 hours of battery life.</description></product>
+  <product id="2"><name>Smart Watch</name><category>Electronics</category><price>129.00</price><icon>⌚</icon><rating>4.3</rating><description>Track workouts, heart rate and sleep with a bright AMOLED display and 7-day battery.</description></product>
+  <product id="3"><name>Running Shoes</name><category>Fashion</category><price>64.50</price><icon>👟</icon><rating>4.6</rating><description>Lightweight, breathable running shoes with cushioned soles for all-day comfort.</description></product>
+  <product id="4"><name>Everyday Backpack</name><category>Fashion</category><price>39.99</price><icon>🎒</icon><rating>4.4</rating><description>Water-resistant 25L backpack with a padded laptop sleeve and hidden security pocket.</description></product>
+  <product id="5"><name>Coffee Maker</name><category>Home</category><price>54.00</price><icon>☕</icon><rating>4.2</rating><description>Programmable 12-cup coffee maker with reusable filter and auto shut-off.</description></product>
+  <product id="6"><name>LED Desk Lamp</name><category>Home</category><price>24.99</price><icon>💡</icon><rating>4.7</rating><description>Dimmable desk lamp with three colour modes and a USB charging port.</description></product>
+  <product id="7"><name>Bluetooth Speaker</name><category>Electronics</category><price>49.99</price><icon>🔊</icon><rating>4.4</rating><description>Portable waterproof speaker with deep bass and 12 hours of playtime.</description></product>
+  <product id="8"><name>Classic Sunglasses</name><category>Fashion</category><price>29.99</price><icon>🕶️</icon><rating>4.1</rating><description>UV400 polarised sunglasses with a durable lightweight frame.</description></product>
+</products>

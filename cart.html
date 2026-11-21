@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shopping Cart | ShopEasy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="container pad"><h1 class="page-title">Shopping Cart</h1><div id="cart"></div></main>
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script>
+<script>
+renderLayout('cart.html');
+async function draw(){
+  const ps=await loadProducts(),cart=getCart(),items=ps.filter(p=>cart[p.id]).map(p=>({...p,qty:cart[p.id]}));
+  if(!items.length){$('#cart').innerHTML='<div class="empty"><div class="big">🛒</div><h2>Your cart is empty</h2><p>You have not added anything yet.</p><a class="btn" href="products.html">Browse products</a></div>';return;}
+  $('#cart').innerHTML=`<div class="cart-layout"><div class="card"><table class="table"><thead><tr><th>Product</th><th>Price</th><th>Quantity</th><th>Total</th><th></th></tr></thead><tbody>
+  ${items.map(i=>`<tr><td><span class="mini">${i.icon}</span> <a href="product.html?id=${i.id}">${esc(i.name)}</a></td><td>${money(i.price)}</td>
+  <td><div class="qty"><button data-q="${i.id}" data-d="-1">−</button><span>${i.qty}</span><button data-q="${i.id}" data-d="1">+</button></div></td>
+  <td>${money(i.price*i.qty)}</td><td><button class="link" data-rm="${i.id}">Remove</button></td></tr>`).join('')}</tbody></table></div>
+  <aside class="card summary"><h3>Order summary</h3>${summaryHTML(totals(items))}<a class="btn block" href="checkout.html">Proceed to checkout</a></aside></div>`;
+}
+document.addEventListener('click',e=>{const q=e.target.closest('[data-q]'),r=e.target.closest('[data-rm]'),c=getCart();
+  if(q){const id=q.dataset.q;c[id]=Math.max(1,c[id]+ +q.dataset.d)}else if(r){delete c[r.dataset.rm]}else return;
+  store.set('cart',c);updateBadge();draw();});
+draw().catch(fail('#cart'));
+</script>
+</body>
+</html>

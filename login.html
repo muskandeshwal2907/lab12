@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login / Register | ShopEasy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="container pad"><div class="card auth"><div class="tabs"><button class="tab active" data-t="login">Login</button><button class="tab" data-t="reg">Register</button></div>
+<div class="formcard"><div id="msg" class="alert"></div>
+<form id="login-form"><div class="f"><label for="le">Email</label><input id="le" type="email" required></div><div class="f"><label for="lp">Password</label><input id="lp" type="password" required></div><button class="btn block">Login</button></form>
+<form id="reg-form" hidden><div class="f"><label for="rn">Full name</label><input id="rn" required></div><div class="f"><label for="re">Email</label><input id="re" type="email" required></div>
+<div class="f"><label for="rp">Password</label><input id="rp" type="password" required minlength="6"></div><div class="f"><label for="rc">Confirm password</label><input id="rc" type="password" required></div><button class="btn block">Create account</button></form></div></div></main>
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script>
+<script>
+renderLayout('login.html');
+const msg=(t,ok)=>{const m=$('#msg');m.textContent=t;m.className='alert '+(ok?'ok':'bad')};
+$$('.tab').forEach(t=>t.onclick=()=>{$$('.tab').forEach(x=>x.classList.toggle('active',x===t));
+  $('#login-form').hidden=t.dataset.t!=='login';$('#reg-form').hidden=t.dataset.t!=='reg';$('#msg').textContent='';$('#msg').className='alert';});
+$('#reg-form').onsubmit=async e=>{e.preventDefault();
+  const name=$('#rn').value.trim(),email=$('#re').value.trim().toLowerCase(),pw=$('#rp').value,users=store.get('users',[]);
+  if(pw!==$('#rc').value)return msg('Passwords do not match.');
+  if(users.some(u=>u.email===email))return msg('An account with this email already exists.');
+  users.push({name,email,hash:await hash(pw)});store.set('users',users);
+  $('.tab[data-t=login]').click();$('#le').value=email;msg('Account created. Please log in.',true);};
+$('#login-form').onsubmit=async e=>{e.preventDefault();
+  const email=$('#le').value.trim().toLowerCase(),h=await hash($('#lp').value),u=store.get('users',[]).find(x=>x.email===email&&x.hash===h);
+  if(!u)return msg('Invalid email or password.');
+  store.set('session',{name:u.name,email:u.email});location.href='index.html';};
+</script>
+</body>
+</html>

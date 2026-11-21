@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact | ShopEasy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="container pad"><h1 class="page-title">Contact Us</h1><p class="lead">Questions about an order or a product? Send us a message.</p>
+<div class="contact"><form id="cf" class="card formcard"><div id="msg" class="alert"></div>
+<div class="two"><div class="f"><label for="n">Name</label><input id="n" required></div><div class="f"><label for="e">Email</label><input id="e" type="email" required></div></div>
+<div class="f"><label for="s">Subject</label><input id="s" required></div><div class="f"><label for="m">Message</label><textarea id="m" rows="5" required></textarea></div><button class="btn">Send message</button></form>
+<aside class="card formcard"><h3>Get in touch</h3><ul><li>📍 12 Market Street, Bengaluru</li><li>📞 +91 80 1234 5678</li><li>✉️ support@shopeasy.example</li><li>🕘 Mon–Sat, 9am – 6pm</li></ul></aside></div></main>
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script>
+<script>
+renderLayout('contact.html');
+$('#cf').onsubmit=e=>{e.preventDefault();const m=$('#msg');m.textContent='Thank you, '+$('#n').value.trim()+'! We will reply within one business day.';m.className='alert ok';e.target.reset();};
+</script>
+</body>
+</html>

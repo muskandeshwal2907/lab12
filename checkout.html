@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout | ShopEasy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main class="container pad"><h1 class="page-title">Checkout</h1><div id="co"><div class="co-layout"><form id="form" class="card formcard"><h3>Shipping details</h3>
+<div class="two"><div class="f"><label for="name">Full name</label><input id="name" required></div><div class="f"><label for="email">Email</label><input id="email" type="email" required></div></div>
+<div class="f"><label for="addr">Address</label><input id="addr" required></div>
+<div class="two"><div class="f"><label for="city">City</label><input id="city" required></div><div class="f"><label for="zip">ZIP / PIN code</label><input id="zip" required pattern="[A-Za-z0-9 -]{4,10}"></div></div>
+<h3 style="margin-top:.5rem">Payment method</h3><div class="pay"><label><input type="radio" name="pay" checked> Credit / Debit card</label><label><input type="radio" name="pay"> PayPal</label><label><input type="radio" name="pay"> Cash on delivery</label></div>
+<p class="lead" style="font-size:.85rem">Demo site: no real payment is taken.</p><button class="btn block">Place order</button></form>
+<aside class="card summary"><h3>Your order</h3><div id="sum"></div></aside></div></div></main>
+<footer id="site-footer"></footer>
+<script src="js/app.js"></script>
+<script>
+renderLayout('checkout.html');
+loadProducts().then(ps=>{
+  const cart=getCart(),items=ps.filter(p=>cart[p.id]).map(p=>({...p,qty:cart[p.id]}));
+  if(!items.length){$('#co').innerHTML='<div class="empty"><div class="big">🛒</div><h2>Nothing to check out</h2><a class="btn" href="products.html">Browse products</a></div>';return;}
+  $('#sum').innerHTML=items.map(i=>`<div class="line"><span>${i.icon} ${esc(i.name)} × ${i.qty}</span><span>${money(i.price*i.qty)}</span></div>`).join('')+summaryHTML(totals(items));
+  const u=store.get('session',null);if(u){$('#name').value=u.name;$('#email').value=u.email;}
+  $('#form').onsubmit=e=>{e.preventDefault();
+    const id='SE'+Date.now().toString().slice(-8),email=esc($('#email').value),orders=store.get('orders',[]);
+    orders.push({id,items:items.map(i=>({id:i.id,qty:i.qty})),total:totals(items).total,date:new Date().toISOString()});
+    store.set('orders',orders);store.set('cart',{});updateBadge();
+    $('#co').innerHTML=`<div class="empty"><div class="big">✅</div><h2>Thank you for your order!</h2><p>Your order number is <b>${id}</b>.<br>A confirmation will be sent to ${email}.</p><a class="btn" href="products.html">Continue shopping</a></div>`;};
+}).catch(fail('#co'));
+</script>
+</body>
+</html>
